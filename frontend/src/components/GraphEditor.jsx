@@ -410,7 +410,8 @@ import ReactFlow, {
   MiniMap,
   Controls,
   Background,
-} from "react-flow-renderer";
+} from "reactflow";
+import "reactflow/dist/style.css";
 import { useAuth } from "../context/AuthContext";
 import { FaHome } from "react-icons/fa";
 
@@ -450,7 +451,7 @@ const GraphEditor = ({
   deleteGraph,
   loadGraph,
 }) => {
-  const { isLoggedIn, username } = useAuth();
+  const { isLoggedIn, username, logout } = useAuth();
 
   // onConnect handler with prompt for weight
   const onConnect = useCallback(
@@ -533,8 +534,8 @@ const GraphEditor = ({
               </span>
               <button
                 onClick={() => {
-                  localStorage.removeItem("token");
-                  window.location.reload();
+                  logout();
+                  window.location.href = "/";
                 }}
                 className="bg-gradient-to-br from-indigo-700 to-blue-700 text-white px-5 py-2 rounded-xl shadow-2xl font-bold transition hover:from-indigo-900 hover:-translate-y-1 active:scale-95"
               >

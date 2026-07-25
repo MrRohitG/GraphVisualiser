@@ -14,7 +14,7 @@ dotenv.config(); // Load environment variables from .env file
 const app = express();
 // const PORT = 5000;
 
-const PORT = process.env.PORT ; // Use PORT from environment variables or default to 5000
+const PORT = process.env.PORT || 5000;
 
 // Connect MongoDB
 connectDB();
@@ -68,9 +68,6 @@ const graphRoutes = require('./routes/graphRoutes');
 const mstRoutes = require('./routes/mstRoutes');
 
 const schedulerRoutes = require("./routes/scheduler");  
-
-const { config } = require('dotenv');
-
 
 app.use("/api", dijkstraRoutes);
 app.use("/api/auth", authRoutes);
