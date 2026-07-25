@@ -21,7 +21,7 @@ const getRandomPosition = () => ({
 });
 
 const MstEditor = () => {
-  const { token, isLoggedIn, username } = useAuth(); // Line ~9
+  const { token, isLoggedIn, username, logout } = useAuth();
   const navigate = useNavigate();
   // Correctly placed inside the component
 
@@ -382,7 +382,7 @@ const handleAddNodeNameSubmit = (nameInput) => {
               <span>Welcome, {username}</span>
               <button
                 onClick={() => {
-                  localStorage.removeItem("token");
+                  logout();
                   navigate("/");
                 }}
                 style={appStyles.logoutButton}
