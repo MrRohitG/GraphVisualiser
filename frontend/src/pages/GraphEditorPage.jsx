@@ -3,6 +3,7 @@ import { useNodesState, useEdgesState } from "react-flow-renderer";
 import GraphEditor from "../components/GraphEditor";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 
 const GraphEditorPage = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -24,9 +25,18 @@ const GraphEditorPage = () => {
   const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000'; // Fallback to local server if env variable not set
   // const API_BASE_URL = "http://localhost:5000";
 
+  const getNextNodeId = (currentNodes) => {
+    const maxNumericId = currentNodes.reduce((max, node) => {
+      const value = Number.parseInt(node.id, 10);
+      return Number.isNaN(value) ? max : Math.max(max, value);
+    }, 0);
+
+    return String(maxNumericId + 1);
+  };
+
   // Add Node
   const addNode = () => {
-    const id = (nodes.length + 1).toString();
+    const id = getNextNodeId(nodes);
     const newNode = {
       id,
       data: { label: `Node ${id}` },
@@ -41,6 +51,11 @@ const GraphEditorPage = () => {
     setNodes([]);
     setEdges([]);
     setResults(null);
+    setSource("");
+    setTarget("");
+    setShowNamePrompt(false);
+    setGraphName("");
+    setIsFullscreen(false);
   };
 
   // Run Dijkstra
@@ -65,7 +80,7 @@ const GraphEditorPage = () => {
       setResults(res.data);
     } catch (err) {
       console.error(err);
-      alert("Error running Dijkstra");
+      alert(`Error running Dijkstra: ${getApiErrorMessage(err)}`);
     }
   };
 
@@ -81,11 +96,21 @@ const GraphEditorPage = () => {
       return;
     }
 
+    if (mode === "single" && !target) {
+      alert("Please select a target node in single-target mode before saving.");
+      return;
+    }
+
     setShowNamePrompt(true);
   };
 
   // Confirm save graph
   const confirmSaveGraph = async () => {
+    if (!graphName.trim()) {
+      alert("Please enter a graph name before saving.");
+      return;
+    }
+
     setSaving(true);
     const formattedEdges = edges.map((e) => [e.source, e.target, parseInt(e.label)]);
     const nodeIds = nodes.map((n) => n.id);
@@ -113,7 +138,7 @@ const GraphEditorPage = () => {
       fetchGraphs();
     } catch (err) {
       console.error(err);
-      alert("Error saving graph");
+      alert(`Error saving graph: ${getApiErrorMessage(err)}`);
     } finally {
       setSaving(false);
     }
@@ -142,7 +167,7 @@ const GraphEditorPage = () => {
       setSavedGraphs(res.data);
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch saved graphs");
+      alert(`Failed to fetch saved graphs: ${getApiErrorMessage(err)}`);
     }
   };
 
@@ -158,7 +183,7 @@ const GraphEditorPage = () => {
       setSavedGraphs((prev) => prev.filter((g) => g._id !== id));
     } catch (err) {
       console.error(err);
-      alert("Failed to delete graph");
+      alert(`Failed to delete graph: ${getApiErrorMessage(err)}`);
     }
   };
 
@@ -186,6 +211,7 @@ const GraphEditorPage = () => {
     setSource(graph.source || "");
     setTarget(graph.target || "");
     setMode(graph.mode || "all");
+    setResults(null);
 
     alert("Graph loaded");
   };

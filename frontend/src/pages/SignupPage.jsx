@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { greenToast } from '../utils/toastStyles';
 import { redToast } from '../utils/toastStyles';
+import { getApiErrorMessage } from '../utils/apiError';
 
 
 const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000';
@@ -28,7 +29,7 @@ const SignupPage = () => {
      toast("Signup successful! Please login.", greenToast);
       navigate("/login");
     } catch (err) {
-      toast("Signup failed: " + (err.response?.data?.message || err.message), redToast);
+      toast("Signup failed: " + getApiErrorMessage(err), redToast);
     }
   };
 

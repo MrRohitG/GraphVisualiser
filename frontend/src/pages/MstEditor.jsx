@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { greenToast } from '../utils/toastStyles';
 import { redToast } from '../utils/toastStyles';
+import { getApiErrorMessage } from '../utils/apiError';
 
 import ControlPanel from '../components/ControlPanel';
 import GraphDisplay from '../components/GraphDisplay';
@@ -193,7 +194,7 @@ const handleAddNodeNameSubmit = (nameInput) => {
 
     } catch (err) {
       console.error("MST error:", err);
-      toast("Failed to compute MST. Check backend or console.", redToast);
+      toast(`Failed to compute MST: ${getApiErrorMessage(err)}`, redToast);
     }
   }, [nodes, edges, token]);// FIX: Added `auth` to the dependency array
 
@@ -241,7 +242,7 @@ const handleAddNodeNameSubmit = (nameInput) => {
     toast("Design saved successfully!", greenToast);
   } catch (err) {
     console.error("Failed to save design:", err);
-    toast("Failed to save design. Check console or backend.", redToast);
+    toast(`Failed to save design: ${getApiErrorMessage(err)}`, redToast);
   }
 
   setShowPrompt(false);
@@ -345,7 +346,7 @@ const handleAddNodeNameSubmit = (nameInput) => {
       toast(`Loaded design: ${design.name}`, greenToast);
     } catch (err) {
       console.error('Error loading design:', err);
-      toast('Failed to load selected design.', redToast);
+      toast(`Failed to load selected design: ${getApiErrorMessage(err)}`, redToast);
     }
   }, [setNodes, setEdges, setNodeCounter, setEdgeCounter, setMstResult]);
 

@@ -457,18 +457,34 @@ const GraphEditor = ({
   const onConnect = useCallback(
     (params) => {
       const weight = prompt("Enter weight for this edge:");
-      if (!weight) return;
+      const parsedWeight = Number.parseInt(weight, 10);
+      if (weight === null || weight.trim() === "" || Number.isNaN(parsedWeight)) {
+        alert("Please enter a valid numeric weight.");
+        return;
+      }
+
+      const edgeExists = edges.some(
+        (edge) =>
+          (edge.source === params.source && edge.target === params.target) ||
+          (edge.source === params.target && edge.target === params.source)
+      );
+
+      if (edgeExists) {
+        alert("An edge already exists between these nodes.");
+        return;
+      }
+
       const newEdge = {
         ...params,
         id: `${params.source}-${params.target}`,
-        label: weight,
+        label: String(parsedWeight),
         animated: true,
-        data: { weight: parseInt(weight) },
+        data: { weight: parsedWeight },
         style: { stroke: "#555" },
       };
       setEdges((eds) => addEdge(newEdge, eds));
     },
-    [setEdges]
+    [edges, setEdges]
   );
 
   return (

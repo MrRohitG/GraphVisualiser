@@ -64,7 +64,7 @@ const saveGraph = async (req, res) => {
     res.status(201).json({ message: 'Graph saved successfully', graph: newGraph });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error saving graph' });
+    res.status(500).json({ message: 'Server error saving graph' });
   }
 };
 
@@ -75,7 +75,7 @@ const getUserGraphs = async (req, res) => {
     res.json(graphs);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error fetching graphs' });
+    res.status(500).json({ message: 'Server error fetching graphs' });
   }
 };
 
@@ -86,12 +86,12 @@ const deleteGraph = async (req, res) => {
     const graphId = req.params.id;
     const graph = await Graph.findOneAndDelete({ _id: graphId, user: userId });
     if (!graph) {
-      return res.status(404).json({ error: 'Graph not found' });
+      return res.status(404).json({ message: 'Graph not found' });
     }
     res.json({ message: 'Graph deleted successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Server error deleting graph' });
+    res.status(500).json({ message: 'Server error deleting graph' });
   }
 };
 

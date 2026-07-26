@@ -1,5 +1,6 @@
 import React from "react";
-import ReactFlow, { Background, Controls } from "react-flow-renderer";
+import ReactFlow, { Background, Controls } from "reactflow";
+import "reactflow/dist/style.css";
 
 const MstOutput = ({ mstResult, originalNodes = [] }) => {
   if (!mstResult) return null;
@@ -14,6 +15,19 @@ const MstOutput = ({ mstResult, originalNodes = [] }) => {
     uniqueNodeIds.add(edge.from);
     uniqueNodeIds.add(edge.to);
   });
+
+  if (mstResult.edges.length === 0) {
+    return (
+      <div style={{ height: '100vh', width: '100%', border: '1px solid #ccc' }}>
+        <h3 style={{ textAlign: 'center', paddingTop: '10px' }}>
+          Minimum Cost Pipeline (Total Cost: {mstResult.cost})
+        </h3>
+        <p style={{ textAlign: 'center', marginTop: '2rem', color: '#666' }}>
+          Run the MST calculation to visualize the selected pipeline.
+        </p>
+      </div>
+    );
+  }
 
   // Position nodes in a circle layout
   const angleStep = (2 * Math.PI) / uniqueNodeIds.size;
