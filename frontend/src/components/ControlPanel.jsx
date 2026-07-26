@@ -306,7 +306,7 @@ const styles = {
   maxWidth: '350px',  // or '100%' if you want it full-width inside its parent
 }
   ,
-  iinputGroup: {
+  inputGroup: {
   display: 'flex',
   flexDirection: 'column',
   gap: '3px',

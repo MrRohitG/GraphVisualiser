@@ -30,6 +30,7 @@ dist-ssr
 
 # Environment variables
 .env
+env
 
 # i want to ignore readme.txt file
 readme.txt

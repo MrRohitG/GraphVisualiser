@@ -1,24 +1,17 @@
-// config/db.js
 const mongoose = require('mongoose');
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config();
 
 const connectDB = async () => {
   try {
-    // await mongoose.connect('mongodb://127.0.0.1:27017/dijkstraDB', {
-    //   useNewUrlParser: true,
-    //   useUnifiedTopology: true,
-    // });
+    if (!process.env.MONGO_URI) {
+      throw new Error('MONGO_URI is not defined in .env');
+    }
 
-      
-    
-    mongoose.connect(process.env.MONGO_URI);
-
-
-    
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('✅ MongoDB connected');
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
-    process.exit(1); // Exit the app if DB fails
+    process.exit(1);
   }
 };
 
