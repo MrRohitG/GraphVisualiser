@@ -9,7 +9,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npm --prefix backend start",
+    "server": "npm --prefix backend start",
+    "client": "npm --prefix frontend run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

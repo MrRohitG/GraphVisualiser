@@ -6,7 +6,13 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || "yoursecretkey";
 
 exports.signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const username = req.body.username?.trim();
+  const email = req.body.email?.trim().toLowerCase();
+  const password = req.body.password;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Username, email, and password are required' });
+  }
 
   try {
     const existingUser = await User.findOne({ email });
@@ -22,7 +28,12 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const email = req.body.email?.trim().toLowerCase();
+  const password = req.body.password;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
 
   try {
     const user = await User.findOne({ email });
@@ -87,4 +98,3 @@ exports.login = async (req, res) => {
 //     res.status(500).json({ message: "Server error", error: err.message });
 //   }
 // };
-

@@ -336,7 +336,12 @@ function CourseSchedulerPage() {
   }, [token]);
 
   useEffect(() => {
-    if (token) fetchPlans();
+    if (token) {
+      fetchPlans();
+    } else {
+      setIsPlansLoading(false);
+      setSavedPlans([]);
+    }
   }, [token, fetchPlans]);
 
   const handleDeletePlan = async (planId) => {
