@@ -10,6 +10,7 @@ import { useAuth } from "../context/AuthContext"; // ✅ Import AuthContext
 import { toast } from 'react-toastify';
 import { greenToast } from '../utils/toastStyles'; // adjust path if needed
 import { redToast } from '../utils/toastStyles';
+import { getApiErrorMessage } from '../utils/apiError';
 
 
 const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000';  
@@ -48,7 +49,7 @@ const LoginPage = () => {
       navigate("/"); // Go back to graph
 
     } catch (err) {
-      toast("Login failed: " + (err.response?.data?.message || err.message), redToast);
+      toast("Login failed: " + getApiErrorMessage(err), redToast);
     }
   };
 

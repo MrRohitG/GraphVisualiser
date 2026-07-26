@@ -261,6 +261,7 @@ import CourseInput from '../components/CourseInput';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaHome } from "react-icons/fa";
+import { getApiErrorMessage } from '../utils/apiError';
 
 
 // Inline edit & trash icons
@@ -329,7 +330,7 @@ function CourseSchedulerPage() {
       const data = await response.json();
       setSavedPlans(data);
     } catch (err) {
-      setError(err.message);
+      setError(getApiErrorMessage(err, 'Failed to fetch plans.'));
     } finally {
       setIsPlansLoading(false);
     }
@@ -354,9 +355,9 @@ function CourseSchedulerPage() {
       if (!response.ok) throw new Error('Failed to delete plan.');
       toast.success('Plan deleted!');
     } catch (err) {
-      setError(err.message);
+      setError(getApiErrorMessage(err, 'Failed to delete plan.'));
       fetchPlans();
-      toast.error('Failed to delete plan: ' + err.message);
+      toast.error('Failed to delete plan: ' + getApiErrorMessage(err, 'Failed to delete plan.'));
     }
   };
 
@@ -477,8 +478,9 @@ function CourseSchedulerPage() {
       setEditPlanId(null);
 
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      const message = getApiErrorMessage(err, 'Failed to save plan.');
+      setError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

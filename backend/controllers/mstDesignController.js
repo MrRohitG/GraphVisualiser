@@ -6,7 +6,7 @@ const getAllDesigns = async (req, res) => {
     const designs = await MSTDesign.find({ userId: req.user.id });
     res.json(designs);
   } catch {
-    res.status(500).json({ error: 'Failed to fetch designs' });
+    res.status(500).json({ message: 'Failed to fetch designs' });
   }
 };
 
@@ -14,10 +14,10 @@ const getAllDesigns = async (req, res) => {
 const getDesignById = async (req, res) => {
   try {
     const design = await MSTDesign.findOne({ _id: req.params.id, userId: req.user.id });
-    if (!design) return res.status(404).json({ error: 'Design not found' });
+    if (!design) return res.status(404).json({ message: 'Design not found' });
     res.json(design);
   } catch {
-    res.status(500).json({ error: 'Failed to fetch design' });
+    res.status(500).json({ message: 'Failed to fetch design' });
   }
 };
 
@@ -39,7 +39,7 @@ const createDesign = async (req, res) => {
     res.status(201).json(newDesign);
   } catch (err) {
     console.error("CREATE DESIGN ERROR:", err.message);
-    res.status(400).json({ error: 'Failed to create design' });
+    res.status(400).json({ message: 'Failed to create design' });
   }
 };
 
@@ -61,13 +61,13 @@ const updateDesign = async (req, res) => {
     );
 
     if (!updated) {
-      return res.status(404).json({ error: 'Design not found' });
+      return res.status(404).json({ message: 'Design not found' });
     }
 
     res.json(updated);
   } catch (err) {
     console.error("UPDATE DESIGN ERROR:", err.message);
-    res.status(400).json({ error: 'Failed to update design' });
+    res.status(400).json({ message: 'Failed to update design' });
   }
 };
 
@@ -84,7 +84,7 @@ const getMST = async (req, res) => {
     });
   } catch (err) {
     console.error("GET MST ERROR:", err.message);
-    res.status(500).json({ error: 'Failed to compute MST' });
+    res.status(500).json({ message: 'Failed to compute MST' });
   }
 };
 

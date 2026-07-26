@@ -3,6 +3,7 @@ import { useNodesState, useEdgesState } from "react-flow-renderer";
 import GraphEditor from "../components/GraphEditor";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 
 const GraphEditorPage = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -79,7 +80,7 @@ const GraphEditorPage = () => {
       setResults(res.data);
     } catch (err) {
       console.error(err);
-      alert("Error running Dijkstra");
+      alert(`Error running Dijkstra: ${getApiErrorMessage(err)}`);
     }
   };
 
@@ -137,7 +138,7 @@ const GraphEditorPage = () => {
       fetchGraphs();
     } catch (err) {
       console.error(err);
-      alert("Error saving graph");
+      alert(`Error saving graph: ${getApiErrorMessage(err)}`);
     } finally {
       setSaving(false);
     }
@@ -166,7 +167,7 @@ const GraphEditorPage = () => {
       setSavedGraphs(res.data);
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch saved graphs");
+      alert(`Failed to fetch saved graphs: ${getApiErrorMessage(err)}`);
     }
   };
 
@@ -182,7 +183,7 @@ const GraphEditorPage = () => {
       setSavedGraphs((prev) => prev.filter((g) => g._id !== id));
     } catch (err) {
       console.error(err);
-      alert("Failed to delete graph");
+      alert(`Failed to delete graph: ${getApiErrorMessage(err)}`);
     }
   };
 
