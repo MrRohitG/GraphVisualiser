@@ -6,9 +6,7 @@ import { toast } from 'react-toastify';
 import { greenToast } from '../utils/toastStyles';
 import { redToast } from '../utils/toastStyles';
 import { getApiErrorMessage } from '../utils/apiError';
-
-
-const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000';
+import { API_BASE_URL } from '../config/apiBase';
 
 const SignupPage = () => {
   const [username, setUsername] = useState(""); // matches backend

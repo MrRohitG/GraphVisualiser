@@ -262,6 +262,7 @@ import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaHome } from "react-icons/fa";
 import { getApiErrorMessage } from '../utils/apiError';
+import { API_BASE_URL } from '../config/apiBase';
 
 
 // Inline edit & trash icons
@@ -317,7 +318,6 @@ function CourseSchedulerPage() {
   const [editPlanId, setEditPlanId] = useState(null);
 
   // const API_BASE_URL = 'http://localhost:5000';
-  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000';  
   const { token } = useAuth();
 
   const fetchPlans = useCallback(async () => {

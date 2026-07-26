@@ -1,8 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "./config/apiBase";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:5000/api", // replace with your backend URL
-  baseURL: `${import.meta.env.VITE_APP_BASE_URL || "http://localhost:5000"}/api`,
+  baseURL: `${API_BASE_URL}/api`,
   withCredentials: true, // This is important for sending cookies with requests
 });
 
