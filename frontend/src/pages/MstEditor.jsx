@@ -9,12 +9,11 @@ import { toast } from 'react-toastify';
 import { greenToast } from '../utils/toastStyles';
 import { redToast } from '../utils/toastStyles';
 import { getApiErrorMessage } from '../utils/apiError';
+import { API_BASE_URL } from '../config/apiBase';
 
 import ControlPanel from '../components/ControlPanel';
 import GraphDisplay from '../components/GraphDisplay';
 import PromptDialog from '../components/PromptDialog'; // adjust path
-
-const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000';
 
 const getRandomPosition = () => ({
   x: Math.random() * 400 + 50, // These values should match what you use in handleAddNode

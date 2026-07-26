@@ -35,16 +35,22 @@ connectDB();
 // );
 
 
-// if want to use mulltiple cors origins
-const allowedOrigins = [
+const allowedOrigins = new Set([
     'http://localhost:5173',
-    'https://graph-visualizer-ui-prlj.onrender.com' // Add your production frontend URL here
-];
+    'http://localhost:3000',
+    'https://graph-visualizer-ui-prlj.onrender.com',
+    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+    ...(process.env.FRONTEND_URLS ? process.env.FRONTEND_URLS.split(',').map((url) => url.trim()).filter(Boolean) : []),
+]);
 
 app.use(
     cors({
         origin: function (origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
+            if (
+                !origin ||
+                allowedOrigins.has(origin) ||
+                origin.endsWith('.vercel.app')
+            ) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
@@ -87,5 +93,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
-
 

@@ -4,6 +4,7 @@ import GraphEditor from "../components/GraphEditor";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { getApiErrorMessage } from "../utils/apiError";
+import { API_BASE_URL } from "../config/apiBase";
 
 const GraphEditorPage = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -22,9 +23,6 @@ const GraphEditorPage = () => {
 
   // const API_BASE_URL = import.meta.env.VITE_API_URL;
   // http://localhost:5000/api/dijkstra
-  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL || 'http://localhost:5000'; // Fallback to local server if env variable not set
-  // const API_BASE_URL = "http://localhost:5000";
-
   const getNextNodeId = (currentNodes) => {
     const maxNumericId = currentNodes.reduce((max, node) => {
       const value = Number.parseInt(node.id, 10);
