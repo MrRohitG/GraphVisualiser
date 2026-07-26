@@ -66,8 +66,42 @@ const deletePlan = async (req, res) => {
   }
 };
 
+const updateTopoPlan = async (req, res) => {
+  const { name, courses, prerequisites } = req.body;
+  const userId = req.user.id;
+  const planId = req.params.id;
+
+  if (!name || !courses || !prerequisites) {
+    return res.status(400).json({ message: "Missing required fields." });
+  }
+
+  try {
+    const sortedOrder = topoSort(courses, prerequisites);
+
+    const updated = await Topo.findOneAndUpdate(
+      { _id: planId, user: userId },
+      { name, courses, prerequisites, result: sortedOrder },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    res.status(200).json({
+      message: "Plan updated successfully.",
+      sortedOrder
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: err.message || "Update failed."
+    });
+  }
+};
+
 module.exports = {
   createTopoPlan,
   getAllPlans,
-  deletePlan
+  deletePlan,
+  updateTopoPlan
 };

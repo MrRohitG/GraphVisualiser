@@ -7,9 +7,10 @@ const authMiddleware = require("../middleware/authMiddleware.js"); // use your e
 
 // const { deletePlan } = require("../controllers/schedulerController");
 
-const { createTopoPlan, getAllPlans, deletePlan } = require("../controllers/schedulerController");
+const { createTopoPlan, getAllPlans, deletePlan, updateTopoPlan } = require("../controllers/schedulerController");
 
 router.post("/create", authMiddleware, createTopoPlan);
+router.put("/update/:id", authMiddleware, updateTopoPlan);
 router.get("/all", authMiddleware, getAllPlans);
 router.delete("/delete/:id", authMiddleware, deletePlan);
 
